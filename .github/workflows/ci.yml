@@ -13,12 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build Docker Image
-        run: docker build -t team-github-action/spring-petclinic-frontend:${{ github.sha }} .
-      - name: Push Docker Image to ECR
-        id: ecr
-        uses: jwalton/gh-ecr-push@v1
+        uses: kciter/aws-ecr-action@master
         with:
-          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+          repo: team-github-action/spring-petclinic-frontend
           region: us-east-1
-          image: team-github-action/spring-petclinic-frontend:${{ github.sha }}
+          tags: latest,${{ github.sha }}
+          create_repo: true
